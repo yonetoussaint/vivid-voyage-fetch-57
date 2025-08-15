@@ -20,17 +20,17 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
   onInputChange
 }) => {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-2xl mx-auto p-6">
       <div className="space-y-2 text-center">
         <h3 className="text-lg font-semibold">Basic Product Information</h3>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-gray-600">
           Enter the essential details about your product
         </p>
       </div>
 
       {/* Product Name */}
       <div className="space-y-2">
-        <Label htmlFor="name">Product Name</Label>
+        <Label htmlFor="name">Product Name *</Label>
         <Input
           id="name"
           value={formData.name}
@@ -42,7 +42,7 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
 
       {/* Product Description */}
       <div className="space-y-2">
-        <Label htmlFor="description">Description</Label>
+        <Label htmlFor="description">Description *</Label>
         <Textarea
           id="description"
           value={formData.description}
@@ -56,7 +56,7 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
       {/* Price and Discount */}
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="price">Price ($)</Label>
+          <Label htmlFor="price">Price (HTG) *</Label>
           <Input
             id="price"
             type="number"
@@ -69,7 +69,7 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="discount_price">Discount Price ($)</Label>
+          <Label htmlFor="discount_price">Discount Price (HTG)</Label>
           <Input
             id="discount_price"
             type="number"
@@ -85,7 +85,7 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
       {/* Inventory and Status */}
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="inventory">Inventory</Label>
+          <Label htmlFor="inventory">Inventory *</Label>
           <Input
             id="inventory"
             type="number"
@@ -102,7 +102,7 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
             id="status"
             value={formData.status}
             onChange={(e) => onInputChange('status', e.target.value)}
-            className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -110,6 +110,8 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
           </select>
         </div>
       </div>
+
+
     </div>
   );
 };
