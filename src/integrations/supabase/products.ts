@@ -159,6 +159,8 @@ export async function updateProduct(productId: string, productData: Partial<Prod
 export async function fetchProductById(productId: string): Promise<Product> {
   const { supabase } = await import('./client');
 
+  console.log(`🔍 fetchProductById: Starting fetch for productId: ${productId}`);
+  
   const { data, error } = await supabase
     .from('products')
     .select(`
@@ -190,12 +192,15 @@ export async function fetchProductById(productId: string): Promise<Product> {
     .eq('id', productId)
     .maybeSingle();
 
+  console.log(`🔍 fetchProductById: Query result for productId ${productId}:`, { data, error });
+
   if (error) {
-    console.error('Error fetching product:', error);
+    console.error('❌ fetchProductById: Error fetching product:', error);
     throw error;
   }
 
   if (!data) {
+    console.error(`❌ fetchProductById: No product found with ID: ${productId}`);
     throw new Error('Product not found');
   }
 

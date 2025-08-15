@@ -10,7 +10,13 @@ import { BasicInfoStep, MediaStep, DetailsStep } from '@/components/seller/Produ
 const ProductEditPage: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
-  const { product, isLoading: productLoading } = useProduct(productId || '');
+  const { product, isLoading: productLoading, error } = useProduct(productId || '');
+
+  // Debug logging
+  console.log('ProductEditPage - productId from URL:', productId);
+  console.log('ProductEditPage - product data:', product);
+  console.log('ProductEditPage - loading state:', productLoading);
+  console.log('ProductEditPage - error:', error);
   const [currentStep, setCurrentStep] = useState(0);
   const [isUpdating, setIsUpdating] = useState(false);
   const [uploadingImages, setUploadingImages] = useState(false);

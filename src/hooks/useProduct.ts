@@ -50,13 +50,22 @@ export function useProduct(productId: string) {
   return useQuery({
     queryKey: ['product', productId],
     queryFn: async () => {
-      console.log(`Fetching product data for ID: ${productId}`);
-      const data = await fetchProductById(productId);
-      console.log('Fetched product data:', data);
-      return data;
+      console.log(`🔍 useProduct: Fetching product data for ID: ${productId}`);
+      try {
+        const data = await fetchProductById(productId);
+        console.log('✅ useProduct: Fetched product data:', data);
+        return data;
+      } catch (error) {
+        console.error('❌ useProduct: Error fetching product:', error);
+        throw error;
+      }
     },
     enabled: !!productId,
     staleTime: 10000, // Consider data fresh for 10 seconds
+    retry: (failureCount, error) => {
+      console.log(`🔄 useProduct: Retry attempt ${failureCount} for productId ${productId}:`, error);
+      return failureCount < 3;
+    }
   });
 }
 
