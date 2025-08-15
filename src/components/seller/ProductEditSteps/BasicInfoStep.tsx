@@ -16,12 +16,6 @@ interface BasicInfoStepProps {
   onInputChange: (field: string, value: string) => void;
 }
 
-// State for navigation
-  const [showDescriptionEditor, setShowDescriptionEditor] = useState(false);
-
-
-
-
 export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
   formData,
   onInputChange
