@@ -61,7 +61,9 @@ export function useProduct(productId: string) {
       }
     },
     enabled: !!productId,
-    staleTime: 10000, // Consider data fresh for 10 seconds
+    staleTime: 0, // Always refetch to avoid stale data issues
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
     retry: (failureCount, error) => {
       console.log(`🔄 useProduct: Retry attempt ${failureCount} for productId ${productId}:`, error);
       return failureCount < 3;

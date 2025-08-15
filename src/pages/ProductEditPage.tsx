@@ -10,7 +10,14 @@ import { BasicInfoStep, MediaStep, DetailsStep } from '@/components/seller/Produ
 const ProductEditPage: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
-  const { product, isLoading: productLoading, error } = useProduct(productId || '');
+  const { data: product, isLoading: productLoading, error, refetch } = useProduct(productId || '');
+
+  // Force refetch on mount to ensure fresh data
+  useEffect(() => {
+    if (productId && !productLoading) {
+      refetch();
+    }
+  }, [productId, refetch, productLoading]);
 
   // Debug logging
   console.log('ProductEditPage - productId from URL:', productId);
