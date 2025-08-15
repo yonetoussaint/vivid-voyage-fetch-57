@@ -20,7 +20,7 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
   onInputChange
 }) => {
   return (
-    <div className="space-y-6 max-w-2xl mx-auto p-6">
+    <div className="space-y-6">
       <div className="space-y-2 text-center">
         <h3 className="text-lg font-semibold">Basic Product Information</h3>
         <p className="text-sm text-gray-600">
