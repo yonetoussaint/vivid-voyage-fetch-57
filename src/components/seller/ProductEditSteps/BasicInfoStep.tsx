@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -16,34 +16,22 @@ interface BasicInfoStepProps {
   onInputChange: (field: string, value: string) => void;
 }
 
-// State for navigation
+const BasicInfoStep: React.FC<BasicInfoStepProps> = ({ formData, onInputChange }) => {
   const [showDescriptionEditor, setShowDescriptionEditor] = useState(false);
 
-  // Handler function for input changes
-  const onInputChange = (field, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
-
-  // Function to handle expand description
   const handleExpandDescription = () => {
     setShowDescriptionEditor(true);
   };
 
-  // Function to handle saving description and returning to form
-  const handleSaveDescription = (description) => {
+  const handleSaveDescription = (description: string) => {
     onInputChange('description', description);
     setShowDescriptionEditor(false);
   };
 
-  // Function to handle cancelling description edit
   const handleCancelDescription = () => {
     setShowDescriptionEditor(false);
   };
 
-  // Show description editor if showDescriptionEditor is true
   if (showDescriptionEditor) {
     return (
       <DescriptionEditor
