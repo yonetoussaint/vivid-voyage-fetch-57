@@ -5,7 +5,7 @@ import { Product, updateProduct } from '@/integrations/supabase/products';
 import { useSeller } from '@/hooks/useSeller';
 import { useProduct } from '@/hooks/useProduct';
 import { toast } from 'sonner';
-import { BasicInfoStep, MediaStep, DetailsStep } from '@/components/seller/ProductEditSteps';
+import { BasicInfoStep, MediaStep, DetailsStep, CategoryStep, ShippingStep, FlashDealsStep } from '@/components/seller/ProductEditSteps';
 
 const ProductEditPage: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
@@ -37,10 +37,26 @@ const ProductEditPage: React.FC = () => {
     inventory: '',
     tags: [] as string[],
     status: 'active',
-    bundle_deals: [] as any[]
+    bundle_deals: [] as any[],
+    category: '',
+    subcategory: '',
+    type: 'simple',
+    weight: '',
+    dimensions: {
+      length: '',
+      width: '',
+      height: ''
+    },
+    shipping_cost: '',
+    free_shipping: false,
+    shipping_time: '',
+    flash_deal: false,
+    flash_start_time: '',
+    flash_end_time: '',
+    flash_discount: ''
   });
 
-  const totalSteps = 3;
+  const totalSteps = 6;
 
   const stepConfig = {
     0: {
@@ -48,10 +64,22 @@ const ProductEditPage: React.FC = () => {
       subtitle: 'Enter essential product details'
     },
     1: {
+      title: 'Category & Type',
+      subtitle: 'Choose product category and type'
+    },
+    2: {
       title: 'Media',
       subtitle: 'Upload images and videos'
     },
-    2: {
+    3: {
+      title: 'Shipping',
+      subtitle: 'Configure shipping details'
+    },
+    4: {
+      title: 'Flash Deals',
+      subtitle: 'Set up promotional offers'
+    },
+    5: {
       title: 'Details & Bundles',
       subtitle: 'Add tags and configure deals'
     }
@@ -67,7 +95,23 @@ const ProductEditPage: React.FC = () => {
         inventory: product.inventory?.toString() || '',
         tags: product.tags || [],
         status: product.status || 'active',
-        bundle_deals: product.bundle_deals || []
+        bundle_deals: product.bundle_deals || [],
+        category: '',
+        subcategory: '',
+        type: product.product_type || 'simple',
+        weight: '',
+        dimensions: {
+          length: '',
+          width: '',
+          height: ''
+        },
+        shipping_cost: '',
+        free_shipping: false,
+        shipping_time: '',
+        flash_deal: product.flash_deal || false,
+        flash_start_time: product.flash_start_time || '',
+        flash_end_time: '',
+        flash_discount: ''
       });
     }
   }, [product]);
@@ -83,9 +127,15 @@ const ProductEditPage: React.FC = () => {
     switch (currentStep) {
       case 0: // Basic Info
         return !!(formData.name && formData.description && formData.price && formData.inventory);
-      case 1: // Media
+      case 1: // Category
+        return !!(formData.category && formData.type);
+      case 2: // Media
         return true; // Media is optional
-      case 2: // Details
+      case 3: // Shipping
+        return true; // Shipping is optional
+      case 4: // Flash Deals
+        return true; // Flash deals are optional
+      case 5: // Details
         return true; // Details are optional
       default:
         return true;
@@ -118,7 +168,10 @@ const ProductEditPage: React.FC = () => {
         inventory: parseInt(formData.inventory),
         tags: formData.tags,
         status: formData.status,
-        bundle_deals: formData.bundle_deals
+        bundle_deals: formData.bundle_deals,
+        product_type: formData.type,
+        flash_deal: formData.flash_deal,
+        flash_start_time: formData.flash_start_time || null
       };
 
       await updateProduct(product.id, updateData);
@@ -174,6 +227,17 @@ const ProductEditPage: React.FC = () => {
         );
       case 1:
         return (
+          <CategoryStep
+            formData={{
+              category: formData.category,
+              subcategory: formData.subcategory,
+              type: formData.type
+            }}
+            onInputChange={handleInputChange}
+          />
+        );
+      case 2:
+        return (
           <MediaStep
             product={product}
             uploadingImages={uploadingImages}
@@ -183,7 +247,32 @@ const ProductEditPage: React.FC = () => {
             onSuccess={() => window.location.reload()} // Refresh product data
           />
         );
-      case 2:
+      case 3:
+        return (
+          <ShippingStep
+            formData={{
+              weight: formData.weight,
+              dimensions: formData.dimensions,
+              shipping_cost: formData.shipping_cost,
+              free_shipping: formData.free_shipping,
+              shipping_time: formData.shipping_time
+            }}
+            onInputChange={handleInputChange}
+          />
+        );
+      case 4:
+        return (
+          <FlashDealsStep
+            formData={{
+              flash_deal: formData.flash_deal,
+              flash_start_time: formData.flash_start_time,
+              flash_end_time: formData.flash_end_time,
+              flash_discount: formData.flash_discount
+            }}
+            onInputChange={handleInputChange}
+          />
+        );
+      case 5:
         return (
           <DetailsStep
             formData={{
@@ -265,14 +354,6 @@ const ProductEditPage: React.FC = () => {
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto px-4 pb-20">
-        <div className="mt-6 mb-6 text-center">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">
-            {stepConfig[currentStep as keyof typeof stepConfig]?.title}
-          </h2>
-          <p className="text-gray-600 text-sm">
-            {stepConfig[currentStep as keyof typeof stepConfig]?.subtitle}
-          </p>
-        </div>
 
         {/* Step Content */}
         <div className="min-h-[400px]">

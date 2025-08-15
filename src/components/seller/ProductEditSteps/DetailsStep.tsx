@@ -33,7 +33,7 @@ export const DetailsStep: React.FC<DetailsStepProps> = ({
 
   return (
     <div className="space-y-6">
-      <div className="space-y-2">
+      <div className="space-y-2 text-center">
         <h3 className="text-lg font-semibold">Product Details</h3>
         <p className="text-sm text-muted-foreground">
           Add tags and configure bundle deals for your product

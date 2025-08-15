@@ -21,7 +21,7 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
 }) => {
   return (
     <div className="space-y-6">
-      <div className="space-y-2">
+      <div className="space-y-2 text-center">
         <h3 className="text-lg font-semibold">Basic Product Information</h3>
         <p className="text-sm text-muted-foreground">
           Enter the essential details about your product
