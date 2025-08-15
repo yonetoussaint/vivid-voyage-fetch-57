@@ -19,13 +19,41 @@ interface BasicInfoStepProps {
 // State for navigation
   const [showDescriptionEditor, setShowDescriptionEditor] = useState(false);
 
+  // Handler function for input changes
+  const onInputChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
 
+  // Function to handle expand description
+  const handleExpandDescription = () => {
+    setShowDescriptionEditor(true);
+  };
 
+  // Function to handle saving description and returning to form
+  const handleSaveDescription = (description) => {
+    onInputChange('description', description);
+    setShowDescriptionEditor(false);
+  };
 
-export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
-  formData,
-  onInputChange
-}) => {
+  // Function to handle cancelling description edit
+  const handleCancelDescription = () => {
+    setShowDescriptionEditor(false);
+  };
+
+  // Show description editor if showDescriptionEditor is true
+  if (showDescriptionEditor) {
+    return (
+      <DescriptionEditor
+        initialDescription={formData.description}
+        onSave={handleSaveDescription}
+        onCancel={handleCancelDescription}
+      />
+    );
+  }
+
   return (
     <div className="space-y-6">
       <div className="space-y-2 text-center">
@@ -50,14 +78,26 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
       {/* Product Description */}
       <div className="space-y-2">
         <Label htmlFor="description">Description *</Label>
-        <Textarea
-          id="description"
-          value={formData.description}
-          onChange={(e) => onInputChange('description', e.target.value)}
-          placeholder="Enter product description"
-          rows={4}
-          required
-        />
+        <div className="relative">
+          <Textarea
+            id="description"
+            value={formData.description}
+            onChange={(e) => onInputChange('description', e.target.value)}
+            placeholder="Enter product description"
+            rows={4}
+            required
+          />
+          <button
+            onClick={handleExpandDescription}
+            className="absolute top-2 right-2 text-gray-400 hover:text-blue-500 transition-colors p-1"
+            type="button"
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M7 7h10v10"/>
+              <path d="M7 17L17 7"/>
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* Price and Discount */}
