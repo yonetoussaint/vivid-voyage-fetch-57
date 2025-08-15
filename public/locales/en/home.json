@@ -1,0 +1,27 @@
+{
+  "forYou": "For You",
+  "recommendations": "For You",
+  "posts": "Posts",
+  "shops": "Shops",
+  "trending": "Trending",
+  "videos": "Videos",
+  "browse": "Browse",
+  "cart": "Cart",
+  "wishlist": "Wishlist",
+  "account": "Account",
+  "messages": "Messages",
+  "navigation": {
+    "home": "Home",
+    "shorts": "Shorts",
+    "feeds": "Feeds", 
+    "messages": "Messages",
+    "more": "More",
+    "account": "Account",
+    "videos": "Videos",
+    "notifications": "Notifications",
+    "bookmarks": "Bookmarks",
+    "friends": "Friends",
+    "shopping": "Shopping",
+    "settings": "Settings"
+  }
+}

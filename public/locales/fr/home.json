@@ -1,0 +1,27 @@
+{
+  "forYou": "Pour Vous",
+  "recommendations": "Pour Vous",
+  "posts": "Publications",
+  "shops": "Boutiques",
+  "trending": "Tendances",
+  "videos": "Vidéos",
+  "browse": "Parcourir",
+  "cart": "Panier",
+  "wishlist": "Liste de souhaits",
+  "account": "Compte",
+  "messages": "Messages",
+  "navigation": {
+    "home": "Accueil",
+    "shorts": "Courts",
+    "feeds": "Flux",
+    "messages": "Messages",
+    "more": "Plus",
+    "account": "Compte",
+    "videos": "Vidéos",
+    "notifications": "Notifications",
+    "bookmarks": "Favoris",
+    "friends": "Amis",
+    "shopping": "Achats",
+    "settings": "Paramètres"
+  }
+}
