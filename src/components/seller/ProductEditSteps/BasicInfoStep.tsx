@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -16,32 +16,16 @@ interface BasicInfoStepProps {
   onInputChange: (field: string, value: string) => void;
 }
 
-const BasicInfoStep: React.FC<BasicInfoStepProps> = ({ formData, onInputChange }) => {
+// State for navigation
   const [showDescriptionEditor, setShowDescriptionEditor] = useState(false);
 
-  const handleExpandDescription = () => {
-    setShowDescriptionEditor(true);
-  };
 
-  const handleSaveDescription = (description: string) => {
-    onInputChange('description', description);
-    setShowDescriptionEditor(false);
-  };
 
-  const handleCancelDescription = () => {
-    setShowDescriptionEditor(false);
-  };
 
-  if (showDescriptionEditor) {
-    return (
-      <DescriptionEditor
-        initialDescription={formData.description}
-        onSave={handleSaveDescription}
-        onCancel={handleCancelDescription}
-      />
-    );
-  }
-
+export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
+  formData,
+  onInputChange
+}) => {
   return (
     <div className="space-y-6">
       <div className="space-y-2 text-center">
@@ -66,26 +50,14 @@ const BasicInfoStep: React.FC<BasicInfoStepProps> = ({ formData, onInputChange }
       {/* Product Description */}
       <div className="space-y-2">
         <Label htmlFor="description">Description *</Label>
-        <div className="relative">
-          <Textarea
-            id="description"
-            value={formData.description}
-            onChange={(e) => onInputChange('description', e.target.value)}
-            placeholder="Enter product description"
-            rows={4}
-            required
-          />
-          <button
-            onClick={handleExpandDescription}
-            className="absolute top-2 right-2 text-gray-400 hover:text-blue-500 transition-colors p-1"
-            type="button"
-          >
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M7 7h10v10"/>
-              <path d="M7 17L17 7"/>
-            </svg>
-          </button>
-        </div>
+        <Textarea
+          id="description"
+          value={formData.description}
+          onChange={(e) => onInputChange('description', e.target.value)}
+          placeholder="Enter product description"
+          rows={4}
+          required
+        />
       </div>
 
       {/* Price and Discount */}

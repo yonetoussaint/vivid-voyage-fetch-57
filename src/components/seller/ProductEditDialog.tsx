@@ -32,7 +32,6 @@ export const ProductEditDialog: React.FC<ProductEditDialogProps> = ({
   const [isUpdating, setIsUpdating] = useState(false);
   const [uploadingImages, setUploadingImages] = useState(false);
   const [uploadingVideos, setUploadingVideos] = useState(false);
-  const [showDescriptionEditor, setShowDescriptionEditor] = useState(false);
 
   const totalSteps = 3;
 
@@ -59,11 +58,6 @@ export const ProductEditDialog: React.FC<ProductEditDialogProps> = ({
     }));
   };
 
-  const handleSaveDescription = (description: string) => {
-    handleInputChange('description', description);
-    setShowDescriptionEditor(false);
-  };
-
   const handleNext = () => {
     if (currentStep < totalSteps - 1) {
       setCurrentStep(currentStep + 1);
@@ -88,6 +82,7 @@ export const ProductEditDialog: React.FC<ProductEditDialogProps> = ({
         return true;
     }
   };
+
 
   const handleSubmit = async () => {
     if (!product) return;
@@ -122,16 +117,6 @@ export const ProductEditDialog: React.FC<ProductEditDialogProps> = ({
   const renderCurrentStep = () => {
     if (!product) return null;
 
-    if (showDescriptionEditor) {
-      return (
-        <DescriptionEditor
-          initialDescription={formData.description}
-          onSave={handleSaveDescription}
-          onCancel={() => setShowDescriptionEditor(false)}
-        />
-      );
-    }
-
     switch (currentStep) {
       case 0:
         return (
@@ -145,7 +130,6 @@ export const ProductEditDialog: React.FC<ProductEditDialogProps> = ({
               status: formData.status
             }}
             onInputChange={handleInputChange}
-            onExpandDescription={() => setShowDescriptionEditor(true)}
           />
         );
       case 1:
@@ -179,14 +163,12 @@ export const ProductEditDialog: React.FC<ProductEditDialogProps> = ({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-        {!showDescriptionEditor && (
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Edit className="w-5 h-5" />
-              Edit Product
-            </DialogTitle>
-          </DialogHeader>
-        )}
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <Edit className="w-5 h-5" />
+            Edit Product
+          </DialogTitle>
+        </DialogHeader>
 
         <div className="space-y-6">
           {/* Current Step Content */}
@@ -194,42 +176,30 @@ export const ProductEditDialog: React.FC<ProductEditDialogProps> = ({
             {renderCurrentStep()}
           </div>
 
-          {/* Action Buttons - Only show when not in description editor */}
-          {!showDescriptionEditor && (
-            <div className="flex gap-2 pt-4">
-              <button
-                type="button"
-                onClick={() => onOpenChange(false)}
-                className="flex-1 py-2 px-4 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
-              >
-                Cancel
-              </button>
-              {currentStep === totalSteps - 1 ? (
-                <button
-                  onClick={handleSubmit}
-                  disabled={isUpdating || !validateCurrentStep()}
-                  className="flex-1 py-2 px-4 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:bg-gray-300 disabled:text-gray-500 transition-colors flex items-center justify-center gap-2"
-                >
-                  {isUpdating ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                      Updating...
-                    </>
-                  ) : (
-                    'Update Product'
-                  )}
-                </button>
+          {/* Action Buttons */}
+          <div className="flex gap-2 pt-4">
+            <button
+              type="button"
+              onClick={() => onOpenChange(false)}
+              className="flex-1 py-2 px-4 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSubmit}
+              disabled={isUpdating || !validateCurrentStep()}
+              className="flex-1 py-2 px-4 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:bg-gray-300 disabled:text-gray-500 transition-colors flex items-center justify-center gap-2"
+            >
+              {isUpdating ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  Updating...
+                </>
               ) : (
-                <button
-                  onClick={handleNext}
-                  disabled={!validateCurrentStep()}
-                  className="flex-1 py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:text-gray-500 transition-colors"
-                >
-                  Next
-                </button>
+                'Update Product'
               )}
-            </div>
-          )}
+            </button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
